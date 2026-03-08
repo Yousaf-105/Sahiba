@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Sania Sahiba 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#ff3d8b;--rose:#ff0055;--gold:#ffd700;--soft:#ffb6d9;}
+
+html,body{width:100%;height:100%;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 0%,#2a0040 0%,#0a000f 70%);
+  font-family:'Cormorant Garamond',serif;color:white;cursor:none;}
+
+.cursor{position:fixed;width:16px;height:16px;background:var(--pink);border-radius:50%;
+  pointer-events:none;z-index:9999;mix-blend-mode:screen;
+  box-shadow:0 0 12px var(--pink),0 0 25px var(--rose);}
+
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.1;transform:scale(0.8);}50%{opacity:1;transform:scale(1.3);}}
+
+.petal{position:fixed;pointer-events:none;animation:petalFall linear infinite;z-index:1;}
+@keyframes petalFall{0%{transform:translateY(-5vh) rotate(0deg);opacity:0;}10%{opacity:0.85;}90%{opacity:0.6;}100%{transform:translateY(105vh) rotate(720deg);opacity:0;}}
+
+#heartCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;}
+
+/* ALL ON ONE SCREEN */
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;padding:12px;gap:5px;}
+
+.top-badge{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:0.8;animation:fadeDown 1s ease both;}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-15px);}to{opacity:1;transform:translateY(0);}}
+
+.crown{font-size:42px;filter:drop-shadow(0 0 18px var(--gold));animation:crownFloat 3s ease-in-out infinite,fadeDown 1s 0.2s ease both;}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-10px) rotate(4deg);}}
+
+.main-name{font-family:'Playfair Display',serif;font-size:clamp(38px,8vw,72px);font-weight:700;
+  background:linear-gradient(135deg,#fff 0%,var(--soft) 30%,var(--pink) 60%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;
+  animation:fadeDown 1s 0.4s ease both,nameGlow 4s 1.4s ease-in-out infinite;}
+@keyframes nameGlow{0%,100%{filter:brightness(1);}50%{filter:brightness(1.35) drop-shadow(0 0 25px var(--pink));}}
+
+.subtitle{font-size:clamp(12px,2.2vw,17px);color:var(--soft);letter-spacing:2px;font-style:italic;animation:fadeDown 1s 0.6s ease both;}
+
+.divider{display:flex;align-items:center;gap:12px;animation:fadeDown 1s 0.8s ease both;}
+.divider-line{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--pink),transparent);}
+
+.click-btn{position:relative;background:transparent;border:2px solid var(--pink);border-radius:60px;
+  padding:13px 42px;color:white;font-family:'Playfair Display',serif;font-size:15px;cursor:none;overflow:hidden;
+  transition:all 0.4s ease;animation:fadeDown 1s 1s ease both,pulseBorder 2.5s 2s ease-in-out infinite;
+  box-shadow:0 0 20px rgba(255,61,139,0.3);}
+.click-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--rose),var(--pink),#c2006a);opacity:0;transition:opacity 0.4s;}
+.click-btn:hover::before{opacity:1;}
+.click-btn span{position:relative;z-index:1;}
+@keyframes pulseBorder{0%,100%{box-shadow:0 0 20px rgba(255,61,139,0.3);}50%{box-shadow:0 0 40px rgba(255,61,139,0.7);}}
+
+/* CELEBRATION — side by side */
+#celebration{display:none;width:100%;max-width:720px;align-items:center;justify-content:center;gap:20px;flex-direction:row;flex-wrap:wrap;}
+
+.tree-side{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;}
+#treeCanvas{display:block;}
+
+.msg-side{flex:1;min-width:200px;max-width:380px;display:flex;flex-direction:column;gap:8px;}
+
+.messages-card{background:linear-gradient(135deg,rgba(255,61,139,0.08),rgba(180,0,100,0.12));
+  border:1px solid rgba(255,61,139,0.25);border-radius:18px;padding:16px 20px;
+  backdrop-filter:blur(10px);position:relative;overflow:hidden;}
+.messages-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--pink),var(--gold),var(--pink),transparent);}
+
+.message-item{display:flex;align-items:center;gap:10px;padding:7px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);opacity:0;transform:translateX(-18px);transition:all 0.6s ease;}
+.message-item:last-child{border-bottom:none;}
+.message-item.show{opacity:1;transform:translateX(0);}
+.msg-icon{font-size:17px;min-width:24px;text-align:center;}
+.msg-text{font-size:14px;line-height:1.4;color:rgba(255,255,255,0.9);}
+
+.wish-banner{text-align:center;opacity:0;transform:translateY(15px);transition:all 1s ease;}
+.wish-banner.show{opacity:1;transform:translateY(0);}
+.wish-big{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,24px);font-style:italic;
+  background:linear-gradient(90deg,var(--gold),var(--soft),var(--pink),var(--gold));background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;}
+@keyframes shimmer{to{background-position:200% center;}}
+.wish-sub{font-size:11px;letter-spacing:3px;color:var(--soft);opacity:0.7;text-transform:uppercase;margin-top:4px;}
+
+.footer-text{position:fixed;bottom:10px;width:100%;text-align:center;font-size:11px;color:rgba(255,182,217,0.4);letter-spacing:2px;z-index:10;}
+
+.firework{position:fixed;pointer-events:none;z-index:20;}
+.spark{position:absolute;width:4px;height:4px;border-radius:50%;animation:spark var(--dur,1s) ease-out forwards;}
+@keyframes spark{0%{transform:translate(0,0);opacity:1;}100%{transform:translate(var(--tx),var(--ty));opacity:0;}}
+</style>
+</head>
+<body>
+<img src="IMG_3031.JPG.jpeg" alt="" width="300px" height="300px">
+<div class="cursor" id="cursor"></div>
+<canvas id="heartCanvas"></canvas>
+<div class="stars" id="stars"></div>
+
+<div class="screen">
+  <div class="top-badge">✦ A Special Day ✦</div>
+  <div class="crown">👑</div>
+  <div class="main-name">Sania Sahiba</div>
+  <div class="subtitle">Her Royal Birthday 🌹</div>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span style="font-size:16px;">💎</span>
+    <div class="divider-line"></div>
+  </div>
+  <button class="click-btn" id="btn" onclick="startCelebration()">
+    <span>✨ Tap to Celebrate ✨</span>
+  </button>
+
+  <div id="celebration">
+    <div class="tree-side">
+      <canvas id="treeCanvas" width="190" height="270"></canvas>
+    </div>
+    <div class="msg-side">
+      <div class="messages-card" id="msgCard"></div>
+      <div class="wish-banner" id="wishBanner">
+        <div class="wish-big">"Happy Birthday, Queen!"</div>
+        <div class="wish-sub">Sania Sahiba 💖 Magical Day</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-text">made with love for Sania Sahiba 💕</div>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX-8+'px';cursor.style.top=e.clientY-8+'px';});
+
+// STARS
+const starsEl=document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2.5+0.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;animation-delay:${Math.random()*5}s;`;
+  starsEl.appendChild(s);
+}
+
+// PETALS
+const petalTypes=['🌸','🌹','💗','🌺','✿'];
+for(let i=0;i<18;i++){
+  const p=document.createElement('div');p.className='petal';
+  p.innerHTML=petalTypes[Math.floor(Math.random()*petalTypes.length)];
+  p.style.cssText=`left:${Math.random()*100}%;animation-duration:${8+Math.random()*8}s;animation-delay:${Math.random()*10}s;font-size:${12+Math.random()*14}px;`;
+  document.body.appendChild(p);
+}
+
+// FLOATING HEARTS BG
+const hC=document.getElementById('heartCanvas');
+const hCtx=hC.getContext('2d');
+hC.width=window.innerWidth;hC.height=window.innerHeight;
+let hearts=[],animRunning=false;
+
+function spawnHeart(){
+  hearts.push({x:Math.random()*hC.width,y:hC.height+30,size:10+Math.random()*20,speed:1+Math.random()*2,opacity:0.8,drift:(Math.random()-0.5)*1.2,hue:Math.random()*50-10});
+}
+function drawH(x,y,sz,op,hue){
+  hCtx.save();hCtx.globalAlpha=op;
+  hCtx.fillStyle=`hsl(${340+hue},100%,62%)`;
+  hCtx.shadowColor=`hsl(${340+hue},100%,62%)`;hCtx.shadowBlur=10;
+  hCtx.beginPath();
+  hCtx.moveTo(x,y);
+  hCtx.bezierCurveTo(x,y-sz*.3,x-sz*.5,y-sz*.7,x-sz*.5,y-sz*.4);
+  hCtx.bezierCurveTo(x-sz*.5,y-sz*.8,x,y-sz*.9,x,y-sz*.6);
+  hCtx.bezierCurveTo(x,y-sz*.9,x+sz*.5,y-sz*.8,x+sz*.5,y-sz*.4);
+  hCtx.bezierCurveTo(x+sz*.5,y-sz*.7,x,y-sz*.3,x,y);
+  hCtx.fill();hCtx.restore();
+}
+function animHearts(){
+  hCtx.clearRect(0,0,hC.width,hC.height);
+  for(let i=hearts.length-1;i>=0;i--){
+    const h=hearts[i];h.y-=h.speed;h.x+=h.drift;h.opacity-=0.003;
+    drawH(h.x,h.y,h.size,Math.max(0,h.opacity),h.hue);
+    if(h.y<-50||h.opacity<=0)hearts.splice(i,1);
+  }
+  if(animRunning)requestAnimationFrame(animHearts);
+}
+
+// ===== HEART TREE =====
+function drawHeartTree(){
+  const tc=document.getElementById('treeCanvas');
+  const c=tc.getContext('2d');
+  const W=tc.width,H=tc.height;
+
+  // Trunk
+  const tg=c.createLinearGradient(W/2-7,H,W/2+7,H*0.44);
+  tg.addColorStop(0,'#5a1f00');tg.addColorStop(1,'#8b4513');
+  c.fillStyle=tg;
+  c.beginPath();
+  c.moveTo(W/2-7,H);c.lineTo(W/2-4,H*0.44);c.lineTo(W/2+4,H*0.44);c.lineTo(W/2+7,H);
+  c.closePath();c.fill();
+
+  // Branch lines
+  const branches=[
+    [W/2,H*0.68,W/2-58,H*0.74],[W/2,H*0.68,W/2+58,H*0.74],
+    [W/2,H*0.60,W/2-52,H*0.52],[W/2,H*0.60,W/2+52,H*0.52],
+    [W/2,H*0.48,W/2-42,H*0.36],[W/2,H*0.48,W/2+42,H*0.36],
+    [W/2,H*0.34,W/2-22,H*0.21],[W/2,H*0.34,W/2+22,H*0.21],
+  ];
+  c.strokeStyle='rgba(139,69,19,0.45)';c.lineWidth=1.5;
+  branches.forEach(([x1,y1,x2,y2])=>{c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();});
+
+  // Draw one heart on canvas
+  function heart(x,y,sz,color,glow){
+    c.save();c.fillStyle=color;
+    if(glow){c.shadowColor=color;c.shadowBlur=14;}
+    c.beginPath();
+    c.moveTo(x,y);
+    c.bezierCurveTo(x,y-sz*.3,x-sz*.5,y-sz*.7,x-sz*.5,y-sz*.4);
+    c.bezierCurveTo(x-sz*.5,y-sz*.8,x,y-sz*.9,x,y-sz*.6);
+    c.bezierCurveTo(x,y-sz*.9,x+sz*.5,y-sz*.8,x+sz*.5,y-sz*.4);
+    c.bezierCurveTo(x+sz*.5,y-sz*.7,x,y-sz*.3,x,y);
+    c.fill();c.restore();
+  }
+
+  // All hearts on tree
+  const hd=[
+    {x:W/2-58,y:H*0.74,sz:21,c:'#ff3d8b',g:true},
+    {x:W/2+58,y:H*0.74,sz:21,c:'#ff1493',g:true},
+    {x:W/2-34,y:H*0.67,sz:15,c:'#ff85c2',g:false},
+    {x:W/2+34,y:H*0.67,sz:15,c:'#ffb6d9',g:false},
+    {x:W/2-52,y:H*0.52,sz:19,c:'#ff0066',g:true},
+    {x:W/2+52,y:H*0.52,sz:19,c:'#ff3d8b',g:true},
+    {x:W/2-26,y:H*0.47,sz:13,c:'#ff99cc',g:false},
+    {x:W/2+26,y:H*0.47,sz:13,c:'#ffb6d9',g:false},
+    {x:W/2-42,y:H*0.36,sz:17,c:'#ff1493',g:true},
+    {x:W/2+42,y:H*0.36,sz:17,c:'#ff3d8b',g:true},
+    {x:W/2-18,y:H*0.31,sz:12,c:'#ffd6ea',g:false},
+    {x:W/2+18,y:H*0.31,sz:12,c:'#ffb6d9',g:false},
+    {x:W/2-22,y:H*0.21,sz:15,c:'#ff0055',g:true},
+    {x:W/2+22,y:H*0.21,sz:15,c:'#ff69b4',g:true},
+    {x:W/2,y:H*0.10,sz:22,c:'#ffd700',g:true}, // gold top
+  ];
+
+  hd.forEach((h,i)=>setTimeout(()=>heart(h.x,h.y,h.sz,h.c,h.g),i*110+300));
+
+  // Pulse the gold top heart
+  setTimeout(()=>{
+    let sc=1,up=true;
+    setInterval(()=>{
+      up?sc+=0.03:sc-=0.03;
+      if(sc>=1.3)up=false;if(sc<=0.85)up=true;
+      c.clearRect(W/2-32,0,64,50);
+      c.save();c.translate(W/2,H*0.10);c.scale(sc,sc);c.translate(-W/2,-H*0.10);
+      heart(W/2,H*0.10,22,'#ffd700',true);c.restore();
+    },55);
+  },hd.length*110+600);
+}
+
+// FIREWORKS
+function firework(x,y){
+  const colors=['#ff3d8b','#ffd700','#ff69b4','#fff','#ffb6d9','#ff0055'];
+  const fw=document.createElement('div');fw.className='firework';
+  fw.style.left=x+'px';fw.style.top=y+'px';
+  for(let i=0;i<18;i++){
+    const s=document.createElement('div');s.className='spark';
+    const a=Math.random()*Math.PI*2,d=50+Math.random()*100;
+    s.style.cssText=`background:${colors[Math.floor(Math.random()*colors.length)]};--tx:${Math.cos(a)*d}px;--ty:${Math.sin(a)*d}px;--dur:${0.5+Math.random()*0.8}s;box-shadow:0 0 5px currentColor;`;
+    fw.appendChild(s);
+  }
+  document.body.appendChild(fw);
+  setTimeout(()=>fw.remove(),1400);
+}
+function launchFireworks(){
+  let n=0;const iv=setInterval(()=>{if(n++>10)return clearInterval(iv);firework(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.5);},270);
+}
+
+const messages=[
+  {icon:'👑',text:'Happy Birthday, Sania Sahiba!'},
+  {icon:'🙏',text:'May Allah bless you always'},
+  {icon:'💖',text:'Wishing you endless happiness'},
+  {icon:'✨',text:'You are truly awesome, Sania!'},
+  {icon:'🌟',text:'Sending you all the good vibes'},
+  {icon:'🌸',text:'Hope your day is pure magic!'},
+];
+
+function startCelebration(){
+  document.getElementById('btn').style.display='none';
+  const cel=document.getElementById('celebration');cel.style.display='flex';
+  animRunning=true;animHearts();
+  const hi=setInterval(()=>spawnHeart(),220);setTimeout(()=>clearInterval(hi),5000);
+  drawHeartTree();
+  launchFireworks();
+  const card=document.getElementById('msgCard');
+  messages.forEach((m,i)=>{
+    setTimeout(()=>{
+      const div=document.createElement('div');div.className='message-item';
+      div.innerHTML=`<span class="msg-icon">${m.icon}</span><span class="msg-text">${m.text}</span>`;
+      card.appendChild(div);
+      requestAnimationFrame(()=>setTimeout(()=>div.classList.add('show'),30));
+    },i*620+400);
+  });
+  setTimeout(()=>document.getElementById('wishBanner').classList.add('show'),messages.length*620+900);
+}
+
+window.addEventListener('resize',()=>{hC.width=window.innerWidth;hC.height=window.innerHeight;});
+</script>
+</body>
+</html>
